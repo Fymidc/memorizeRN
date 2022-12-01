@@ -59,12 +59,12 @@ const SearchScreen = ({ navigation }) => {
       </View>
 
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }} >
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false} alwaysBounceVertical >
 
+          <SetBox navigation={navigation} screen={route.name} />
           <SetBox screen={route.name} />
           <SetBox screen={route.name} />
-          <SetBox screen={route.name} />
-          <FolderBox screen={route.name} />
+          <FolderBox navigation={navigation} screen={route.name} />
           <FolderBox screen={route.name} />
           <FolderBox screen={route.name} />
         </ScrollView>

@@ -29,7 +29,7 @@ const HomeScreen = ({ navigation }) => {
               
               showsHorizontalScrollIndicator={false} horizontal alwaysBounceHorizontal >
 
-              <SetBox screen={route.name} />
+              <SetBox navigation={navigation} screen={route.name} />
               <SetBox screen={route.name}/>
               <SetBox screen={route.name}/>
               <SetBox screen={route.name}/>
@@ -43,7 +43,7 @@ const HomeScreen = ({ navigation }) => {
         
             >
 
-              <FolderBox />
+              <FolderBox navigation={navigation} />
               <FolderBox />
               <FolderBox />
               <FolderBox />

@@ -1,14 +1,15 @@
-import { View, Text, StyleSheet, Dimensions } from 'react-native'
+import { View, Text, StyleSheet, Dimensions, TouchableOpacity } from 'react-native'
 import React from 'react'
 
 const FolderBox = (props) => {
 
   const {width} = Dimensions.get("window")
   //calculation thinkl about it later
-  const nwidth = props.screen === "Home" ?  300  : props.screen === "Search" ? width/2+170 : 300
+  const nwidth = props.screen === "Home" ?  300  : props.screen === "Search" ? width/2+170 : width-50
 
   return (
-    <View style={[styles.container,{width:nwidth}]} >
+    <TouchableOpacity activeOpacity={0.9}  onPress={()=>props.navigation.navigate("Folder",{folderName:"Phrasal Verb",userName:"Fatih bodur"})} 
+    style={[styles.container,{width:nwidth}]} >
       <View style={{flex:3}}>
         <Text>Dosya icon</Text>
         <Text>Phrasal verbs</Text>
@@ -18,7 +19,7 @@ const FolderBox = (props) => {
         <Text>U</Text>
         <Text style={{paddingHorizontal:10}} >Fatih bodur</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   )
 }
 

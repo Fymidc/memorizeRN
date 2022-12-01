@@ -19,7 +19,7 @@ import LoginScreen from './screeens/LoginScreen';
 const RootStack = createNativeStackNavigator();
 const  App =()=> {
   return (
-    <NavigationContainer  >
+    <NavigationContainer >
        <StatusBar barStyle={'dark-content'} backgroundColor={"white"} />
       <RootStack.Navigator initialRouteName='Tabs' screenOptions={{headerShown:false}} >
 

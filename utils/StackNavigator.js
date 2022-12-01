@@ -1,14 +1,12 @@
 import React from "react";
-import { createStackNavigator } from "@react-navigation/stack";
+import { createStackNavigator, TransitionPresets} from "@react-navigation/stack";
 import HomeScreen from "../screeens/HomeScreen";
 import FolderScreen from "../screeens/FolderScreen";
 import SetScreen from "../screeens/SetScreen";
-import AddModal from "./TabNavigator";
 import LoginScreen from "../screeens/LoginScreen";
 import SplashScreen from "../screeens/SplashScreen";
 import UserScreen from "../screeens/UserScreen";
 import SearchScreen from "../screeens/SearchScreen";
-import AddmodalScreen from "../screeens/AddmodalScreen";
 
 const HomeStack = createStackNavigator();
 const SearchStack = createStackNavigator();
@@ -25,8 +23,9 @@ export function StackScreen() {
 }
 
 export function HomeStackScreen() {
+
   return (
-    <HomeStack.Navigator screenOptions={{headerShown:false}}>
+    <HomeStack.Navigator screenOptions={() => ({...TransitionPresets.SlideFromRightIOS,headerShown:false})}>
      
       <HomeStack.Screen name="Homestack" component={HomeScreen} />
       <HomeStack.Screen name="Folder" component={FolderScreen} />
@@ -49,7 +48,7 @@ export function UserStackScreen() {
 
 export function SearchStackScreen() {
   return (
-    <SearchStack.Navigator screenOptions={{headerShown:false}} >
+    <SearchStack.Navigator screenOptions={() => ({...TransitionPresets.SlideFromRightIOS,headerShown:false})} >
       
       <SearchStack.Screen name="Searchstack" component={SearchScreen} />
       <SearchStack.Screen name="Folder" component={FolderScreen} />
