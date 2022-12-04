@@ -4,11 +4,13 @@ import Header from '../components/Header'
 import AdvertisementArea from '../components/AdvertisementArea'
 import SetBox from '../components/SetBox'
 import FolderBox from '../components/FolderBox'
-import { useRoute } from '@react-navigation/native'
+import { getFocusedRouteNameFromRoute, useIsFocused, useRoute } from '@react-navigation/native'
 
 const HomeScreen = ({ navigation }) => {
 
   const route =useRoute();
+  //const subroute = getFocusedRouteNameFromRoute(route)
+ // console.log(  "Home den gelen",isFocused ? "Home" :  "" )
 
   return (
 
@@ -29,7 +31,7 @@ const HomeScreen = ({ navigation }) => {
               
               showsHorizontalScrollIndicator={false} horizontal alwaysBounceHorizontal >
 
-              <SetBox navigation={navigation} screen={route.name} />
+              <SetBox navigation={navigation}  />
               <SetBox screen={route.name}/>
               <SetBox screen={route.name}/>
               <SetBox screen={route.name}/>
@@ -43,10 +45,10 @@ const HomeScreen = ({ navigation }) => {
         
             >
 
-              <FolderBox navigation={navigation} />
-              <FolderBox />
-              <FolderBox />
-              <FolderBox />
+              <FolderBox screen={route.name} navigation={navigation} />
+              <FolderBox screen={route.name} />
+              <FolderBox  screen={route.name}/>
+              <FolderBox screen={route.name}/>
             </ScrollView>
           </View>
 

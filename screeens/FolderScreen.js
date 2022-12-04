@@ -2,12 +2,11 @@ import { View, Text, ScrollView, Pressable, StyleSheet, Modal, TextInput } from 
 import React from 'react'
 import SetBox from '../components/SetBox';
 import AntDesign from 'react-native-vector-icons/AntDesign'
+import AddModalSecond from '../components/AddModalSecond';
 
 
 const FolderScreen = ({ route, navigation }) => {
-
   const [modalVisible, setModalVisible] = React.useState(false);
-
 
   const { folderName, userName } = route.params;
 
@@ -30,46 +29,10 @@ const FolderScreen = ({ route, navigation }) => {
       </ScrollView>
 
       <Pressable onPress={()=>setModalVisible(true)} style={styles.button}> 
-        <AntDesign style={{position:"relative"}} name="plus" size={35}/>
+        <AntDesign style={{position:"relative"}} name="plus" color={"white"} size={35}/>
       </Pressable>
 
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={modalVisible}
-
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-
-            <View style={{ alignItems: "center" }} >
-              <Text style={styles.modalText}>Create a Set</Text>
-              <TextInput style={{ width: 200, borderRadius: 10, paddingLeft: 10 }} placeholder='Write a Name' />
-            </View>
-
-           
-
-
-
-
-            <View style={{ flexDirection: "row", alignItems: "center" }} >
-              <Pressable
-                style={[styles.bbutton, styles.buttonClose]}
-                onPress={() => setModalVisible(!modalVisible)}
-              >
-                <Text style={styles.textStyle}>Cancel</Text>
-              </Pressable>
-
-              <Pressable
-                style={[styles.bbutton, styles.buttonClose]}
-                onPress={() => onmodalAdd()}
-              >
-                <Text style={styles.textStyle}>Create</Text>
-              </Pressable>
-            </View>
-          </View>
-        </View>
-      </Modal>
+      <AddModalSecond route={route.name} setModalVisible={setModalVisible} modalVisible={modalVisible} />
 
     </View>
   )
@@ -82,7 +45,7 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 30,
-    backgroundColor: '#ee6e73',
+    backgroundColor: 'tomato',
     position: 'absolute',
     bottom: 50,
     right: 30,

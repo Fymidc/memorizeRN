@@ -3,12 +3,12 @@ import React, { useState } from 'react'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import SetBox from '../components/SetBox'
 import FolderBox from '../components/FolderBox'
-import { useRoute } from '@react-navigation/native'
+import {  useRoute } from '@react-navigation/native'
 
 
 const SearchScreen = ({ navigation }) => {
 
-  const route = useRoute();
+  const route =useRoute();
 
   const [choosen, setchoosen] = useState("allresult")
   const [isfocus, setisfocus] = useState(false)
@@ -61,10 +61,10 @@ const SearchScreen = ({ navigation }) => {
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }} >
         <ScrollView showsVerticalScrollIndicator={false} alwaysBounceVertical >
 
-          <SetBox navigation={navigation} screen={route.name} />
+          <SetBox screen={route.name} navigation={navigation}  />
           <SetBox screen={route.name} />
           <SetBox screen={route.name} />
-          <FolderBox navigation={navigation} screen={route.name} />
+          <FolderBox screen={route.name} navigation={navigation}  />
           <FolderBox screen={route.name} />
           <FolderBox screen={route.name} />
         </ScrollView>

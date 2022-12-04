@@ -1,13 +1,19 @@
 import * as React from 'react';
-import { Modal, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import { HomeStackScreen, SearchStackScreen, UserStackScreen } from './StackNavigator';
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import RBSheet from 'react-native-raw-bottom-sheet';
-import { TextInput } from 'react-native-gesture-handler';
+import AddModal from '../components/AddModal';
+import SearchScreen from '../screeens/SearchScreen';
+import UserScreen from '../screeens/UserScreen';
+import HomeScreen from '../screeens/HomeScreen';
+import FolderScreen from '../screeens/FolderScreen';
+import SetScreen from '../screeens/SetScreen';
+import { createStackNavigator, TransitionPresets } from '@react-navigation/stack';
+
 const Tab = createBottomTabNavigator();
 
 
@@ -21,7 +27,7 @@ export default function TabNavigator() {
   // React.useEffect(() => {
   //     null
   // }, [focused])
-  
+
 
   const openModal = (e) => {
     setisFocused(!focused)
@@ -37,10 +43,7 @@ export default function TabNavigator() {
     refRBSheet.current.close()
   }
 
-  const onmodalAdd = () => {
-    setModalVisible(!modalVisible)
-    console.log(modalVisible)
-  }
+
   return (
 
     <View style={{ flex: 1 }}>
@@ -51,10 +54,14 @@ export default function TabNavigator() {
         closeOnPressMask={true}
         customStyles={{
           container: {
-            borderRadius: 25
+            borderTopRightRadius: 25,
+            borderTopLeftRadius: 25,
+            elevation:8,
+            
           },
           wrapper: {
-            backgroundColor: "transparent"
+            backgroundColor: "rgba(153, 153, 153, 0.3)",
+          
           },
           draggableIcon: {
             backgroundColor: "#000"
@@ -63,7 +70,7 @@ export default function TabNavigator() {
       >
 
         <View style={styles.settingContainer} >
-          <TouchableOpacity onPress={() => openModal("Folder")} activeOpacity={0.8} style={{ flexDirection: "row", padding: 20, alignItems: "center" }} >
+          <TouchableOpacity onPress={() => openModal("Set")} activeOpacity={0.8} style={{ flexDirection: "row", padding: 20, alignItems: "center" }} >
             <AntDesign name='plus' size={20} color={"black"} />
 
             <Text style={{ fontSize: 16, color: "black", paddingHorizontal: 5 }} >Add Set</Text>
@@ -77,49 +84,12 @@ export default function TabNavigator() {
         </View>
 
       </RBSheet>
+    
 
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={modalVisible}
+        <AddModal addchoosen={addchoosen} modalVisible={modalVisible} setModalVisible={setModalVisible} />
+      
 
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-
-            {addchoosen === "Set" ? <View style={{ alignItems: "center" }} >
-              <Text style={styles.modalText}>Set Name</Text>
-              <TextInput  style={{ width: 200, borderRadius: 10, paddingLeft: 10 }} placeholder='Write a Name' />
-            </View>
-              :
-              <View style={{ alignItems: "center" }} >
-                <Text style={styles.modalText}>Folder Name</Text>
-                <TextInput  style={{ width: 200, borderRadius: 10, paddingLeft: 10 }} placeholder='Write a Name' />
-              </View>}
-
-
-
-
-            <View style={{ flexDirection: "row", alignItems: "center" }} >
-              <Pressable
-                style={[styles.button, styles.buttonClose]}
-                onPress={() => setModalVisible(!modalVisible) }
-              >
-                <Text style={styles.textStyle}>Cancel</Text>
-              </Pressable>
-
-              <Pressable
-                style={[styles.button, styles.buttonClose]}
-                onPress={() => onmodalAdd()}
-              >
-                <Text style={styles.textStyle}>Add</Text>
-              </Pressable>
-            </View>
-          </View>
-        </View>
-      </Modal>
-
-      <Tab.Navigator screenOptions={({ route }) => ({
+      <Tab.Navigator initialRouteName='Home' screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
 
@@ -150,7 +120,7 @@ export default function TabNavigator() {
         <Tab.Screen listeners={({ route, navigation }) => ({
           state: () => {
             const subRoute = getFocusedRouteNameFromRoute(route)
-            console.log(subRoute)
+            //console.log(subRoute)
             if (subRoute === "Set") {
               navigation.setOptions({ tabBarStyle: { display: 'none' } });
             } else {
@@ -182,6 +152,48 @@ export default function TabNavigator() {
     </View>
   );
 }
+
+const HomeStack = createStackNavigator();
+const SearchStack = createStackNavigator();
+const UserStack = createStackNavigator();
+
+export function HomeStackScreen() {
+
+  return (
+    <HomeStack.Navigator screenOptions={() => ({...TransitionPresets.SlideFromRightIOS,headerShown:false})}>
+     
+      <HomeStack.Screen name="HomeStack" component={HomeScreen} />
+      <HomeStack.Screen name="Folder" component={FolderScreen} />
+      <HomeStack.Screen name="Set" component={SetScreen} />
+     
+    </HomeStack.Navigator>
+  );
+}
+
+export function UserStackScreen() {
+  return (
+    <UserStack.Navigator screenOptions={{headerShown:false}}>
+      
+      <UserStack.Screen name="UserStack" component={UserScreen} />
+      <UserStack.Screen name="Folder" component={FolderScreen} />
+      <UserStack.Screen name="Set" component={SetScreen} />
+    </UserStack.Navigator>
+  );
+}
+
+export function SearchStackScreen() {
+  return (
+    <SearchStack.Navigator screenOptions={() => ({...TransitionPresets.SlideFromRightIOS,headerShown:false})} >
+      
+      <SearchStack.Screen name="SearchStack" component={SearchScreen} />
+      <SearchStack.Screen name="Folder" component={FolderScreen} />
+      <SearchStack.Screen name="Set" component={SetScreen} />
+    </SearchStack.Navigator>
+  );
+}
+
+
+
 
 const styles = StyleSheet.create({
   settingContainer: {

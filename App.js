@@ -9,26 +9,30 @@
 
 import React from 'react'
 import { StatusBar } from 'react-native';
-import TabNavigator from './utils/TabNavigator';
+import TabNavigator, { HomeStackScreen, SearchStackScreen, UserStackScreen } from './utils/TabNavigator';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SplashScreen from './screeens/SplashScreen';
 import LoginScreen from './screeens/LoginScreen';
+import HomeScreen from './screeens/HomeScreen';
+import SearchScreen from './screeens/SearchScreen';
+import UserScreen from './screeens/UserScreen';
 
 
-const RootStack = createNativeStackNavigator();
-const  App =()=> {
+const Stack = createNativeStackNavigator();
+const loggedin = true
+const App = () => {
   return (
     <NavigationContainer >
-       <StatusBar barStyle={'dark-content'} backgroundColor={"white"} />
-      <RootStack.Navigator initialRouteName='Tabs' screenOptions={{headerShown:false}} >
+      {loggedin ?
+        <TabNavigator />
+        :
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="Splash" component={SplashScreen} />
+          <Stack.Screen name="Login" component={LoginScreen} />
+        </Stack.Navigator>}
 
-        <RootStack.Screen name="Splash" component={SplashScreen} />
-        <RootStack.Screen name="Login" component={LoginScreen} />
-        <RootStack.Screen name="Tabs" component={TabNavigator} />
 
-      </RootStack.Navigator>
-   
     </NavigationContainer>
   )
 }

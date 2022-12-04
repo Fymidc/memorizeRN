@@ -1,18 +1,18 @@
 import { View, Text, StyleSheet, Dimensions, TouchableOpacity } from 'react-native'
 import React from 'react'
+import Ionicons from 'react-native-vector-icons/Ionicons'
 
 const FolderBox = (props) => {
-
+//console.log(props.screeen)
   const {width} = Dimensions.get("window")
   //calculation thinkl about it later
-  const nwidth = props.screen === "Home" ?  300  : props.screen === "Search" ? width/2+170 : width-50
-
+  
   return (
     <TouchableOpacity activeOpacity={0.9}  onPress={()=>props.navigation.navigate("Folder",{folderName:"Phrasal Verb",userName:"Fatih bodur"})} 
-    style={[styles.container,{width:nwidth}]} >
+    style={[styles.container,{width:props.screen === "SearchStack" ? 350 :300}]} >
       <View style={{flex:3}}>
-        <Text>Dosya icon</Text>
-        <Text>Phrasal verbs</Text>
+        <Ionicons name='folder-outline' size={20} color={"black"} />
+        <Text style={{fontSize:16, color:"black"}} >Phrasal verbs</Text>
       </View>
 
       <View style={{flex:1,flexDirection:"row" }} >

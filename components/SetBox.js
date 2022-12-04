@@ -4,14 +4,14 @@ import React from 'react'
 const SetBox = (props) => {
   const {width} = Dimensions.get("window")
   //calculation thinkl about it later
-  const nwidth = props.screen === "Home" ?  300  : props.screen === "Search" ? width/2+170 : width-50
+  //console.log( "set gelen", props.screen)  
 
   return (
     <TouchableOpacity activeOpacity={0.9} 
     onPress={()=>props.navigation.navigate("Set",{setName:"Slangs",userName:"Fatih",termCount:120})} 
-    style={[styles.container,{width:nwidth}]} >
+    style={[styles.container,{width:props.screen === "SearchStack" ? 350 : props.screen === "Folder" ? 350 : 300 }]} >
       <View style={{flex:3}}>
-        <Text>Slangs</Text>
+        <Text style={{fontSize:16, color:"black"}} >Slangs</Text>
         <Text>120 terms</Text>
       </View>
 
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     container:{
         height:110,
         borderRadius:10,
-        
+      
         flex:1,
         padding:20,
         backgroundColor:"white",

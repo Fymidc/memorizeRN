@@ -3,10 +3,10 @@ import React from 'react'
 import AdvertisementArea from '../components/AdvertisementArea';
 import Card from '../components/Card';
 import AntDesign from 'react-native-vector-icons/AntDesign'
+import AddModalSecond from '../components/AddModalSecond';
 
 
 const SetScreen = ({ route }) => {
-
   const [modalVisible, setModalVisible] = React.useState(false);
 
 
@@ -43,49 +43,11 @@ const SetScreen = ({ route }) => {
       </ScrollView>
 
       <Pressable onPress={()=> setModalVisible(true)} style={styles.button}>
-        <AntDesign style={{ position: "relative" }} name="plus" size={35} />
+        <AntDesign style={{ position: "relative" }} name="plus" color={"white"} size={35} />
       </Pressable>
 
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={modalVisible}
+      <AddModalSecond route={route.name} setModalVisible={setModalVisible} modalVisible={modalVisible} />
 
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-
-            <View style={{ alignItems: "center" }} >
-              <Text style={styles.modalText}>Term</Text>
-              <TextInput style={{ width: 200, borderRadius: 10, paddingLeft: 10 }} placeholder='Write a Name' />
-            </View>
-
-            <View style={{ alignItems: "center" }} >
-              <Text style={styles.modalText}>Definition</Text>
-              <TextInput style={{ width: 200, borderRadius: 10, paddingLeft: 10 }} placeholder='Write a Name' />
-            </View>
-
-
-
-
-            <View style={{ flexDirection: "row", alignItems: "center" }} >
-              <Pressable
-                style={[styles.bbutton, styles.buttonClose]}
-                onPress={() => setModalVisible(!modalVisible)}
-              >
-                <Text style={styles.textStyle}>Cancel</Text>
-              </Pressable>
-
-              <Pressable
-                style={[styles.bbutton, styles.buttonClose]}
-                onPress={() => onmodalAdd()}
-              >
-                <Text style={styles.textStyle}>Add</Text>
-              </Pressable>
-            </View>
-          </View>
-        </View>
-      </Modal>
 
     </View>
   )
@@ -98,7 +60,7 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 30,
-    backgroundColor: '#ee6e73',
+    backgroundColor: 'tomato',
     position: 'absolute',
     bottom: 50,
     right: 30,
