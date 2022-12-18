@@ -1,27 +1,51 @@
 import { View, Text, Button, StyleSheet, Pressable, ScrollView, Modal, TextInput } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import AdvertisementArea from '../components/AdvertisementArea';
 import Card from '../components/Card';
 import AntDesign from 'react-native-vector-icons/AntDesign'
+import IonIcons from 'react-native-vector-icons/Ionicons'
 import AddModalSecond from '../components/AddModalSecond';
+import { fetchAllCards } from '../reducers/CardReducer';
+import { deleteSet, fetchAllSets } from '../reducers/SetReducer';
 
 
-const SetScreen = ({ route }) => {
+const SetScreen = ({ route,navigation }) => {
   const [modalVisible, setModalVisible] = React.useState(false);
 
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchAllCards(id))
+  }, [])
+
+  const ondeleteSet =(id)=>{
+    dispatch(deleteSet(id)).then(()=>{
+      navigation.goBack()
+    })
+  }
+
+  const card = useSelector(card => card.card)
 
 
-  const { setName, userName, termCount } = route.params;
+  const { setName, userName, termCount, id } = route.params;
   return (
     <View style={{ flex: 1 }} >
-      <View style={{ padding: 20 }} >
+      <View style={{ padding: 20, flexDirection: "row", justifyContent: "space-between", alignItems: "center" }} >
+        <View >
 
-        <Text style={{ color: "black", fontSize: 20, fontWeight: "800" }} >{setName}</Text>
-        <View style={{ flexDirection: "row" }} >
+          <Text style={{ color: "black", fontSize: 20, fontWeight: "800" }} >{setName}</Text>
+          <View style={{ flexDirection: "row" }} >
 
-          <Text style={{ fontSize: 16, fontWeight: "700" }} >{userName}</Text>
-          <Text style={{ paddingHorizontal: 20, fontSize: 16, fontWeight: "700" }} >{termCount}</Text>
+            <Text style={{ fontSize: 16, fontWeight: "700" }} >{userName}</Text>
+            <Text style={{ paddingHorizontal: 20, fontSize: 16, fontWeight: "700" }} >{termCount}</Text>
+          </View>
         </View>
+        <View>
+          <IonIcons onPress={() => ondeleteSet(id)} name='trash-outline' size={24} />
+
+        </View>
+
       </View>
 
       <AdvertisementArea />
@@ -29,24 +53,21 @@ const SetScreen = ({ route }) => {
 
       <ScrollView>
 
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
+        {card.loading ? <Text>Loading</Text> : Object.values(card.value).map((e, index) =>
+          <Card key={index}
+            id={e.id}
+            definition={e.definition}
+            term={e.term}
+            setid={e.setid}
+          />)}
+
       </ScrollView>
 
-      <Pressable onPress={()=> setModalVisible(true)} style={styles.button}>
+      <Pressable onPress={() => setModalVisible(true)} style={styles.button}>
         <AntDesign style={{ position: "relative" }} name="plus" color={"white"} size={35} />
       </Pressable>
 
-      <AddModalSecond route={route.name} setModalVisible={setModalVisible} modalVisible={modalVisible} />
+      <AddModalSecond setid={id} route={route.name} setModalVisible={setModalVisible} modalVisible={modalVisible} />
 
 
     </View>

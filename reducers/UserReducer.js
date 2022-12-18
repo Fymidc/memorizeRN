@@ -4,9 +4,6 @@ import axios from 'axios';
 
 const initialState = {
     value: [],
-    loginuser: [],
-    token:[],
-    friends: [],
     loading: false,
     success: false,
     
@@ -18,11 +15,20 @@ export const userReducer = createSlice({
     reducers: {},
 
     extraReducers(builder) {
+        builder.addCase(fetchAllUsers.pending, (state, action) => {
+
+            return {
+                ...state.loading,
+                loading: true
+            }
+        })
         builder.addCase(fetchAllUsers.fulfilled, (state, action) => {
 
             return {
-                ...state.users,
-                users: action.payload
+                ...state.value,
+                ...state.loading,
+                loading:false,
+                value: action.payload
             }
         })
 
@@ -35,7 +41,7 @@ export default userReducer.reducer;
 
 
 export const fetchAllUsers = createAsyncThunk('users/fetchUsers', async () => {
-    const response = await axios.get('https://diary-apps.herokuapp.com/user')
+    const response = await axios.get('http://10.0.2.2:8080/user/1')
     return response.data
     // fetchAllUsers(response)
 

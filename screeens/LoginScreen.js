@@ -4,10 +4,10 @@ import IonIcons from 'react-native-vector-icons/Ionicons'
 
 const LoginScreen = () => {
     return (
-        <View style={{ flex: 1, alignItems: "center" }} >
-            <Image style={styles.image} source={require("../utils/images/pexels-sample-bg.jpg")} />
+        <View style={{ flex: 1, alignItems: "center",backgroundColor:"#FDFDBD" }} >
+            <Image style={styles.image} source={require("../assets/images/loginbg.jpg")} />
             <TouchableOpacity activeOpacity={0.9} style={styles.button} >
-                <IonIcons size={20} name="logo-google" />
+                <IonIcons size={20} color="white" name="logo-google" />
                 <Text style={styles.signinbutton}>SIGN IN WITH GOOGLE</Text>
             </TouchableOpacity>
         </View>
@@ -18,15 +18,17 @@ export default LoginScreen
 
 const styles = StyleSheet.create({
     image: {
-        marginTop: 25,
+        marginTop: 50,
         height: 350,
         width: 350,
-        borderRadius:15
+        borderRadius:15,
+        elevation:5
 
     },
     signinbutton: {
         fontSize:18,
-        paddingHorizontal:5
+        paddingHorizontal:10,
+        color:"white"
     },
     button: {
         backgroundColor:"tomato",
@@ -35,7 +37,7 @@ const styles = StyleSheet.create({
         alignItems:"center",
         padding:10,
         borderRadius:15,
-        elevation:5
+        elevation:8
 
     }
 })

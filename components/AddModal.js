@@ -1,11 +1,24 @@
 import { Modal, View, Text, StyleSheet, TextInput, Pressable } from 'react-native'
 import React from 'react'
+import { useDispatch } from 'react-redux'
+import { createOneFolder, fetchAllFolders } from '../reducers/FolderReducer'
 
 const AddModal = (props) => {
+const [text, settext] = React.useState("")
+  const dispatch = useDispatch()
+
+  const data = {
+    id:"",
+    title:text,
+    userid:1
+  }
 
   const onmodalAdd = () => {
+   dispatch(createOneFolder(data)).then(()=>{
+    dispatch(fetchAllFolders())
+   })
     props.setModalVisible(!props.modalVisible)
-    console.log(props.modalVisible)
+    
   }
 
   return (
@@ -18,15 +31,11 @@ const AddModal = (props) => {
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
 
-            {props.addchoosen === "Set" ? <View style={{ alignItems: "center" }} >
-              <Text style={styles.modalText}>Set Name</Text>
-              <TextInput style={{ width: 200, borderRadius: 10, paddingLeft: 10 }} placeholder='Write a Name' />
-            </View>
-              :
+           
               <View style={{ alignItems: "center" }} >
                 <Text style={styles.modalText}>Folder Name</Text>
-                <TextInput style={{ width: 200, borderRadius: 10, paddingLeft: 10 }} placeholder='Write a Name' />
-              </View>}
+                <TextInput onChangeText={settext} style={{ width: 200, borderRadius: 10, paddingLeft: 10 }} placeholder='Write a Name' />
+              </View>
 
 
 

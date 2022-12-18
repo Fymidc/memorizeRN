@@ -1,10 +1,18 @@
 import { View, Text, StyleSheet, Image } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 
-const SplashScreen = () => {
+const SplashScreen = ({navigation}) => {
+
+    useEffect(() => {
+      setTimeout(() => {
+        navigation.navigate("Login")
+      }, 1000);
+    }, [])
+    
+
     return (
         <View>
-            <Image style={styles.image} source={require("../utils/images/pexels-sample-bg.jpg")} />
+            <Image style={styles.image} source={require("../assets/images/splashbg.jpg")} />
 
         </View>
     )
@@ -14,6 +22,7 @@ export default SplashScreen
 
 const styles = StyleSheet.create({
     image:{
-
+            width:"100%",
+            height:"100%"
     }
 })

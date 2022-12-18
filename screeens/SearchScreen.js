@@ -1,18 +1,50 @@
 import { View, Text, Pressable, TextInput, StyleSheet, ScrollView } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import SetBox from '../components/SetBox'
 import FolderBox from '../components/FolderBox'
-import {  useRoute } from '@react-navigation/native'
+import { useRoute } from '@react-navigation/native'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchAllSets } from '../reducers/SetReducer'
+import { fetchAllFolders } from '../reducers/FolderReducer'
 
 
 const SearchScreen = ({ navigation }) => {
 
-  const route =useRoute();
+  const route = useRoute();
+  const dispatch = useDispatch()
 
-  const [choosen, setchoosen] = useState("allresult")
+  const [choosen, setchoosen] = useState("allresults")
   const [isfocus, setisfocus] = useState(false)
 
+  const fetchData = (data) => {
+
+    if (data === "sets") {
+      dispatch(fetchAllSets())
+
+    } else if (data === "folders") {
+
+      dispatch(fetchAllFolders())
+
+    } else if (data === "allresults") {
+      dispatch(fetchAllFolders())
+      dispatch(fetchAllSets())
+    }
+    setchoosen(data)
+
+  }
+  // useEffect(() => {
+  //   if(choosen === "allresults"){
+
+  //     dispatch(fetchAllFolders())
+  //     dispatch(fetchAllSets())
+  //   }
+  // }, [])
+  
+
+
+  const folder = useSelector(folder => folder.folder)
+  const set = useSelector(set => set.set)
 
   return (
     <View style={{ flex: 1 }} >
@@ -30,10 +62,10 @@ const SearchScreen = ({ navigation }) => {
 
             placeholder='Search'
             onFocus={() => setisfocus(true)}
-            onBlur={()=>setisfocus(false)}
-            style={[styles.input,{paddingLeft:isfocus ? 10 : 0}]} />
+            onBlur={() => setisfocus(false)}
+            style={[styles.input, { paddingLeft: isfocus ? 10 : 0 }]} />
 
-          {isfocus ? <Ionicons style={{ paddingHorizontal: 10 }} name='close' size={16} /> : "" }
+          {isfocus ? <Ionicons style={{ paddingHorizontal: 10 }} name='close' size={16} /> : ""}
 
         </View>
 
@@ -42,15 +74,15 @@ const SearchScreen = ({ navigation }) => {
 
           <ScrollView alwaysBounceHorizontal horizontal contentContainerStyle={{ paddingHorizontal: 30, marginLeft: 30 }} >
 
-            <Pressable onPress={() => setchoosen("allresult")} style={[styles.secim, { borderBottomWidth: choosen === "allresult" ? 1 : 0 }]}>
+            <Pressable onPress={() => fetchData("allresults")} style={[styles.secim, { borderBottomWidth: choosen === "allresults" ? 1 : 0 }]}>
               <Text style={styles.secimtext} >All Results</Text>
             </Pressable>
 
-            <Pressable onPress={() => setchoosen("sets")} style={[styles.secim, { borderBottomWidth: choosen === "sets" ? 1 : 0 }]}>
+            <Pressable onPress={() => fetchData("sets")} style={[styles.secim, { borderBottomWidth: choosen === "sets" ? 1 : 0 }]}>
               <Text style={styles.secimtext}  >Sets</Text>
             </Pressable>
 
-            <Pressable onPress={() => setchoosen("folders")} style={[styles.secim, { borderBottomWidth: choosen === "folders" ? 1 : 0 }]}>
+            <Pressable onPress={() => fetchData("folders")} style={[styles.secim, { borderBottomWidth: choosen === "folders" ? 1 : 0 }]}>
               <Text style={styles.secimtext}  >Folders</Text>
             </Pressable>
 
@@ -61,16 +93,50 @@ const SearchScreen = ({ navigation }) => {
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }} >
         <ScrollView showsVerticalScrollIndicator={false} alwaysBounceVertical >
 
-          <SetBox screen={route.name} navigation={navigation}  />
-          <SetBox screen={route.name} />
-          <SetBox screen={route.name} />
-          <FolderBox screen={route.name} navigation={navigation}  />
-          <FolderBox screen={route.name} />
-          <FolderBox screen={route.name} />
+
+
+
+          {choosen === "sets" && set.loading === false ? Object.values(set.value).map((val, index) =>
+            <SetBox key={index}
+              payload={val}
+              navigation={navigation} />) : ""}
+
+          {choosen === "folders" && folder.loading === false ? Object.values(folder.value).map((e, index) =>
+            <FolderBox key={index}
+              id={e.id}
+              userid={e.userid}
+              title={e.title}
+
+              username={e.username}
+
+              navigation={navigation} />) : ""}
+
+          {choosen === "allresults" && set.loading === false && folder.loading === false
+
+            ?
+
+            <View>{
+              Object.values(set.value).map((val, index) =>
+                <SetBox key={index}
+                  payload={val}
+                  navigation={navigation} />)
+            }
+              {
+                Object.values(folder.value).map((e, index) =>
+                  <FolderBox key={index}
+                    id={e.id}
+                    userid={e.userid}
+                    title={e.title}
+
+                    username={e.username}
+
+                    navigation={navigation} />)
+              }
+            </View>
+            :
+            ""}
         </ScrollView>
-        <Text> {/*  after on click to input change this */}
-          Search a folder or set
-        </Text>
+        
       </View>
 
     </View>

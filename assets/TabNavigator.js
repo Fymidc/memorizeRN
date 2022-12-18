@@ -28,7 +28,6 @@ export default function TabNavigator() {
   //     null
   // }, [focused])
 
-
   const openModal = (e) => {
     setisFocused(!focused)
     setModalVisible(true)
@@ -70,15 +69,10 @@ export default function TabNavigator() {
       >
 
         <View style={styles.settingContainer} >
-          <TouchableOpacity onPress={() => openModal("Set")} activeOpacity={0.8} style={{ flexDirection: "row", padding: 20, alignItems: "center" }} >
-            <AntDesign name='plus' size={20} color={"black"} />
-
-            <Text style={{ fontSize: 16, color: "black", paddingHorizontal: 5 }} >Add Set</Text>
-
-          </TouchableOpacity>
+          
           <TouchableOpacity onPress={() => openModal("Folder")} activeOpacity={0.8} style={{ flexDirection: "row", padding: 20, alignItems: "center" }} >
             <AntDesign name='plus' size={20} color={"black"} />
-            <Text style={{ fontSize: 16, color: "black", paddingHorizontal: 5 }} >Add Folder</Text>
+            <Text style={{ fontSize: 16, color: "black", paddingHorizontal: 5 }} >Create Folder</Text>
           </TouchableOpacity>
 
         </View>

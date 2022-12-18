@@ -4,7 +4,7 @@ import React from 'react'
 const Header = (props) => {
   return (
     <View style={[styles.container,{justifyContent:props.title === "UserName" ? "center" :"space-between" }]} >
-        <Text style={{fontWeight:"800",fontSize:25
+        <Text style={{letterSpacing:2,fontSize:30,color:"#600000",fontFamily:"LobsterTwo-Regular"
     }} >{props.title}</Text>
 {props.title==="UserName" ? "" : <Text>İc</Text>}
         

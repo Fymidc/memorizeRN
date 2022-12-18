@@ -1,12 +1,46 @@
 import { Modal, View, Text, StyleSheet, TextInput, Pressable } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
+import {useDispatch} from 'react-redux'
+import { createOneSet, getAllSetsByFoldersId } from '../reducers/SetReducer'
+import { createOneCard, fetchAllCards } from '../reducers/CardReducer'
 
 const AddModalSecond = (props) => {
  
-  const onmodalAdd = () => {
-    props.setModalVisible(!props.modalVisible)
-    console.log(props.modalVisible)
+  const [term, setterm] = useState("")
+  const [definition, setdefinition] = useState("")
+  const [setname, setsetname] = useState("")
+
+  const dispatch = useDispatch()
+//console.log("propsp set id",props.setid)
+  const setData={
+    id:"",
+    title:setname,
+    userid:1,
+    avatar:"",
+    folderid:props.folderid
   }
+  const cardData={
+    id:"",
+    term:term,
+    definition:definition,
+    setid:props.setid
+  }
+ 
+   const createRequest =()=>{
+   
+    if(props.route === "Folder"){
+        dispatch(createOneSet(setData)).then(()=>{
+         
+          dispatch(getAllSetsByFoldersId(props.folderid))
+        })
+    }else{
+        dispatch(createOneCard(cardData)).then(()=>{
+         
+          dispatch(fetchAllCards(props.setid))
+        })
+    }
+    props.setModalVisible(!props.modalVisible)
+   }
 
   return (
     <Modal
@@ -22,18 +56,18 @@ const AddModalSecond = (props) => {
             <View>
               <View style={{ alignItems: "center" }} >
                 <Text style={styles.modalText}>Term</Text>
-                <TextInput style={{ width: 200, borderRadius: 10, paddingLeft: 10 }} placeholder='Term' />
+                <TextInput onChangeText={setterm} style={{ width: 200, borderRadius: 10, paddingLeft: 10 }} placeholder='Term' />
               </View>
 
               <View style={{ alignItems: "center" }} >
                 <Text style={styles.modalText}>Definition</Text>
-                <TextInput style={{ width: 200, borderRadius: 10, paddingLeft: 10 }} placeholder='Definition' />
+                <TextInput onChangeText={setdefinition} style={{ width: 200, borderRadius: 10, paddingLeft: 10 }} placeholder='Definition' />
               </View>
             </View>
             :
             <View style={{ alignItems: "center" }} >
-              <Text style={styles.modalText}>Folder Name</Text>
-              <TextInput style={{ width: 200, borderRadius: 10, paddingLeft: 10 }} placeholder='Write a Name' />
+              <Text style={styles.modalText}>Set Name</Text>
+              <TextInput onChangeText={setsetname} style={{ width: 200, borderRadius: 10, paddingLeft: 10 }} placeholder='Write a Name' />
             </View>}
 
 
@@ -49,7 +83,7 @@ const AddModalSecond = (props) => {
 
             <Pressable
               style={[styles.button, styles.buttonClose]}
-              onPress={() => onmodalAdd()}
+              onPress={() => createRequest()}
             >
               <Text style={styles.textStyle}>Add</Text>
             </Pressable>

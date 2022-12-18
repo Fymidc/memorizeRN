@@ -4,20 +4,21 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 
 const FolderBox = (props) => {
 //console.log(props.screeen)
+const {id,userid,username,title} = props
   const {width} = Dimensions.get("window")
   //calculation thinkl about it later
   
   return (
-    <TouchableOpacity activeOpacity={0.9}  onPress={()=>props.navigation.navigate("Folder",{folderName:"Phrasal Verb",userName:"Fatih bodur"})} 
+    <TouchableOpacity activeOpacity={0.9}  onPress={()=>props.navigation.navigate("Folder",{folderName:title,userName:username,folderid:id})} 
     style={[styles.container,{width:props.screen === "SearchStack" ? 350 :300}]} >
       <View style={{flex:3}}>
         <Ionicons name='folder-outline' size={20} color={"black"} />
-        <Text style={{fontSize:16, color:"black"}} >Phrasal verbs</Text>
+        <Text style={{fontSize:16, color:"black"}} >{title}</Text>
       </View>
 
       <View style={{flex:1,flexDirection:"row" }} >
-        <Text>U</Text>
-        <Text style={{paddingHorizontal:10}} >Fatih bodur</Text>
+        <Text style={{color:"tomato",fontWeight:"bold",textAlign:"center"}} >{username?.slice(0,1)}</Text>
+        <Text style={{paddingHorizontal:10}} >{username}</Text>
       </View>
     </TouchableOpacity>
   )
